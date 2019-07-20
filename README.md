@@ -2,6 +2,7 @@
 * Create a MySQL database called demo_concorde
 * Execute the SQL file ./database.sql
 * Modify the file ./application/config/database.php according to your credentials
+* Merise CDM: [./CDM.png](https://github.com/vmoulin78/demo-concorde-mysql/blob/master/CDM.png)
 * Main files or folders about LightORM:
    * [./application/business/models/](https://github.com/vmoulin78/demo-concorde-mysql/tree/master/application/business/models)
    * [./application/business/associations/](https://github.com/vmoulin78/demo-concorde-mysql/tree/master/application/business/associations)
