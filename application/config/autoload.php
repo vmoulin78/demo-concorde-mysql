@@ -93,13 +93,13 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 $autoload['helper'] = array(
-    'url',
     'utils',
     'mbstring',
     'string',
     'reflection',
     'lightorm',
     'mysql',
+    'url',
 );
 
 /*
