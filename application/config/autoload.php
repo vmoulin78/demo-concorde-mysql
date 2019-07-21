@@ -8,9 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | This file specifies which systems should be loaded by default.
 |
 | In order to keep the framework as light-weight as possible only the
-| absolute minimal resources are loaded by default. For example,
-| the database is not connected to automatically since no assumption
-| is made regarding whether you intend to use it.  This file lets
+| absolute minimal resources are loaded by default. This file lets
 | you globally define which systems you would like loaded with every
 | request.
 |
@@ -46,22 +44,18 @@ $autoload['packages'] = array();
 |  Auto-load Libraries
 | -------------------------------------------------------------------
 | These are the classes located in system/libraries/ or your
-| application/libraries/ directory, with the addition of the
-| 'database' library, which is somewhat of a special case.
+| application/libraries/ directory.
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'email', 'session');
+|   $autoload['libraries'] = array('email', 'session');
 |
 | You can also supply an alternative library name to be assigned
 | in the controller:
 |
-|	$autoload['libraries'] = array('user_agent' => 'ua');
+|   $autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array(
-    'database',
-    'databubbles_warehouse',
-);
+$autoload['libraries'] = array();
 
 /*
 | -------------------------------------------------------------------
@@ -74,12 +68,12 @@ $autoload['libraries'] = array(
 |
 | Prototype:
 |
-|	$autoload['drivers'] = array('cache');
+|   $autoload['drivers'] = array('cache');
 |
 | You can also supply an alternative property name to be assigned in
 | the controller:
 |
-|	$autoload['drivers'] = array('cache' => 'cch');
+|   $autoload['drivers'] = array('cache' => 'cch');
 |
 */
 $autoload['drivers'] = array();
@@ -90,14 +84,9 @@ $autoload['drivers'] = array();
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['helper'] = array('url', 'file');
+|   $autoload['helper'] = array('url', 'file');
 */
 $autoload['helper'] = array(
-    'utils',
-    'mbstring',
-    'string',
-    'reflection',
-    'lightorm',
     'mysql',
     'url',
 );
@@ -108,15 +97,15 @@ $autoload['helper'] = array(
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['config'] = array('config1', 'config2');
+|   $autoload['config'] = array('config1', 'config2');
 |
 | NOTE: This item is intended for use ONLY if you have created custom
-| config files.  Otherwise, leave it blank.
+| config files. Otherwise, leave it blank.
+| The config.php and config_lightORM.php files are automatically
+| loaded, so you don't need to add them in $autoload['config'].
 |
 */
-$autoload['config'] = array(
-    'config_lightORM',
-);
+$autoload['config'] = array();
 
 /*
 | -------------------------------------------------------------------
@@ -124,7 +113,7 @@ $autoload['config'] = array(
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['language'] = array('lang1', 'lang2');
+|   $autoload['language'] = array('lang1', 'lang2');
 |
 | NOTE: Do not include the "_lang" part of your file.  For example
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
@@ -138,11 +127,11 @@ $autoload['language'] = array();
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['model'] = array('first_model', 'second_model');
+|   $autoload['model'] = array('first_model', 'second_model');
 |
 | You can also supply an alternative model name to be assigned
 | in the controller:
 |
-|	$autoload['model'] = array('first_model' => 'first');
+|   $autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array();
