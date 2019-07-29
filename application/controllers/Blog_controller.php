@@ -13,6 +13,7 @@ use LightORM\Finder;
 use LightORM\Query_manager;
 use Concorde\utils\datetime\Mysql_date;
 use Concorde\utils\datetime\Mysql_datetime;
+use Concorde\utils\datetime\Now;
 
 class Blog_controller extends CI_Controller {
     public function __construct() {
@@ -400,6 +401,8 @@ class Blog_controller extends CI_Controller {
     public function example_30() {
         $CI =& get_instance();
 
+        $now = Now::get_singleton()->get_value();
+
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
         $finder = new Finder('Article', $main_databubble);
@@ -415,7 +418,7 @@ class Blog_controller extends CI_Controller {
                 'content'     => 'The content of the comment',
                 'article'     => $article,
                 'person'      => $person,
-                'created_at'  => new Mysql_datetime(),
+                'created_at'  => new Mysql_datetime($now),
             )
         );
 
