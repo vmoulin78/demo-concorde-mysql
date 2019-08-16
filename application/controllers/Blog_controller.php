@@ -741,4 +741,17 @@ class Blog_controller extends CI_Controller {
 
         var_dump_model($article);
     }
+
+    public function example_40() {
+        $CI =& get_instance();
+
+        $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
+
+        $finder = new Finder('Article AS[alias_article]', $main_databubble);
+        $finder->where_in('alias_article:status:name', ['draft', 'archived'])
+               ->order_by('alias_article:status:name', 'ASC');
+        $articles = $finder->get();
+
+        var_dump_models($articles);
+    }
 }
