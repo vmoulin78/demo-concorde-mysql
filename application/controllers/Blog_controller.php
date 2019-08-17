@@ -64,7 +64,7 @@ class Blog_controller extends CI_Controller {
         $statuses = Status::find();
         var_dump_models($statuses);
         echo '<hr />';
-        $statuses = Status::find_by_name(['archived', 'online']);
+        $statuses = Status::find_by_name(['ARCHIVED', 'ONLINE']);
         var_dump_models($statuses);
     }
 
@@ -145,7 +145,7 @@ class Blog_controller extends CI_Controller {
 
         echo '<br />';
 
-        $article->set('status', Status::find_by_name('online'))
+        $article->set('status', Status::find_by_name('ONLINE'))
                 ->save();
         var_dump_model($article);
     }
@@ -440,7 +440,7 @@ class Blog_controller extends CI_Controller {
         $finder->where('alias_folder:name', 'folder 1-2');
         $folder = $finder->get();
 
-        $status_draft = Status::find_by_name('draft');
+        $status_draft = Status::find_by_name('DRAFT');
 
         $article = $main_databubble->insert_model(
             'Article',
@@ -748,7 +748,7 @@ class Blog_controller extends CI_Controller {
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
         $finder = new Finder('Article AS[alias_article]', $main_databubble);
-        $finder->where_in('alias_article:status:name', ['draft', 'archived'])
+        $finder->where_in('alias_article:status:name', ['DRAFT', 'ARCHIVED'])
                ->order_by('alias_article:status:name', 'ASC');
         $articles = $finder->get();
 

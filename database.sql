@@ -120,9 +120,9 @@ INSERT INTO folder (name, parent_id) VALUES
     ('folder 3-1', 3);
 
 INSERT INTO blg_status (name, color) VALUES
-    ('draft', 'red'),
-    ('online', 'green'),
-    ('archived', 'blue');
+    ('DRAFT', 'red'),
+    ('ONLINE', 'green'),
+    ('ARCHIVED', 'blue');
 
 INSERT INTO person (username, password, created_at) VALUES
     ('Vince', 'Vince123', NOW());

@@ -11,12 +11,6 @@ class Status extends Enum_model
 {
     use Table_enum_model_trait;
 
-    const NAMES = array(
-        'DRAFT'     => 'draft',
-        'ONLINE'    => 'online',
-        'ARCHIVED'  => 'archived',
-    );
-
     //------------------------------------------------------//
     //                   Basic properties                   //
     //------------------------------------------------------//
