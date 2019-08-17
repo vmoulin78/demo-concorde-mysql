@@ -446,6 +446,7 @@ class Blog_controller extends CI_Controller {
             'Article',
             array(
                 'status'      => $status_draft,
+                'categories'  => ['technology', 'sport'],
                 'author'      => $author,
                 'folder'      => $folder,
                 'created_at'  => new Mysql_datetime(),
