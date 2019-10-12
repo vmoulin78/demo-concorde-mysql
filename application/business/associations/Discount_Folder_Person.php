@@ -3,8 +3,8 @@ namespace Demo_concorde\business\associations;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use LightORM\Association;
-use LightORM\Table_association_trait;
+use Concorde\artefact\Association;
+use Concorde\artefact\Table_association_trait;
 
 class Discount_Folder_Person extends Association
 {

@@ -4,7 +4,7 @@ namespace Demo_concorde\business\models;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Concorde\utils\php\Undefined;
-use LightORM\Table_concrete_model_trait;
+use Concorde\artefact\Table_concrete_model_trait;
 
 class Commentator extends Person
 {

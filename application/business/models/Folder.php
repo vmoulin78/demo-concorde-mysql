@@ -4,8 +4,8 @@ namespace Demo_concorde\business\models;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Concorde\utils\php\Undefined;
-use LightORM\Model;
-use LightORM\Table_concrete_model_trait;
+use Concorde\artefact\Model;
+use Concorde\artefact\Table_concrete_model_trait;
 
 class Folder extends Model
 {
