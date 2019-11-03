@@ -69,41 +69,45 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_6() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('author');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         var_dump_model($article);
     }
 
     public function example_7() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with(array(
             'author',
             'comments',
         ));
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         var_dump_model($article);
     }
 
     public function example_8() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with(array(
             'author',
             'comments' => 'person',
         ));
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         var_dump_model($article);
     }
 
     public function example_9() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with(array(
             'author' => array('.<Person:comments'),
             'tags AS[model:alias_tag, association:alias_article_tag]',
         ));
-        $finder->like('alias_tag:content', 'tag_', 'after');
-        $finder->where('alias_article_tag:created_at >=', Mysql_datetime::create_from_format('Y-m-d|', '2019-01-01'));
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1)
+               ->like('alias_tag:content', 'tag_', 'after')
+               ->where('alias_article_tag:created_at >=', Mysql_datetime::create_from_format('Y-m-d|', '2019-01-01'));
+        $article = $finder->first();
         var_dump_model($article);
     }
 
@@ -132,9 +136,10 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_12() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('title');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         var_dump($article->get_title()->get_content());
 
         echo '<br />';
@@ -151,11 +156,12 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_13() {
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with(array(
             'tags',
         ));
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         $articles_tags = $article->get_tags();
         list($article_tag) = $articles_tags;
         $article_tag->set('created_at', new Mysql_datetime('2019-03-06 09:06:25.740818'));
@@ -206,18 +212,19 @@ class Blog_controller extends CI_Controller {
             'created_at'  => new Mysql_datetime('2019-03-07 17:52:06.740818'),
         ));
 
-        $finder = new Finder('Article');
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with(array(
             'tags',
         ));
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first();
         var_dump_model($article);
 
         Article_Tag::delete(array(
             'article_id'  => 1,
             'tag_id'      => $tag_id,
         ));
-        $article = $finder->get(1);
+        $article = $finder->first();
         var_dump_model($article);
 
         Tag::delete($tag_id);
@@ -309,9 +316,10 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_23() {
-        $finder = new Finder('Folder');
+        $finder = new Finder('Folder AS[alias_folder]');
         $finder->with('subfolders|2');
-        $folder = $finder->get(1);
+        $finder->where('alias_folder:id', 1);
+        $folder = $finder->first();
         var_dump_model($folder);
     }
 
@@ -319,7 +327,7 @@ class Blog_controller extends CI_Controller {
         $folder_table_depth_of_folder_1 = Folder::get_table_depth('parent_folder', 1);
         // equivalent to: $folder_table_depth_of_folder_1 = $this->db->get_table_depth('folder', 'parent_id', 1);
 
-        $finder = new Finder('Folder');
+        $finder = new Finder('Folder AS[alias_folder]');
         $finder->with(array(
             'subfolders|' . ($folder_table_depth_of_folder_1 - 1) => array(
                 'articles' => array(
@@ -328,7 +336,8 @@ class Blog_controller extends CI_Controller {
                 ),
             ),
         ));
-        $folder = $finder->get(1);
+        $finder->where('alias_folder:id', 1);
+        $folder = $finder->first();
         var_dump_model($folder);
     }
 
@@ -338,14 +347,15 @@ class Blog_controller extends CI_Controller {
 
         $folder_table_depth_of_folder_1 = Folder::get_table_depth('parent_folder', 1);
 
-        $finder = new Finder('Folder REC[subfolders|' . ($folder_table_depth_of_folder_1 - 1) . ']');
+        $finder = new Finder('Folder AS[alias_folder] REC[subfolders|' . ($folder_table_depth_of_folder_1 - 1) . ']');
         $finder->with(array(
             'articles' => array(
                 'title',
                 'paragraphs',
             ),
         ));
-        $folder = $finder->get(1);
+        $finder->where('alias_folder:id', 1);
+        $folder = $finder->first();
         var_dump_model($folder);
     }
 
@@ -360,22 +370,24 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_27() {
-        $finder = new Finder('Author');
+        $finder = new Finder('Author AS[alias_author]');
         $finder->with(array(
             '.<Person:orders AS[models:[Discount:alias_discount, Folder:alias_folder], association:alias_discount_folder_person] REC[Folder:subfolders|2]' => 'Folder:articles',
         ));
-        $finder->where('alias_discount:start_date >=', Mysql_date::create_from_format('Y-m-d', '2019-01-01'));
-        $finder->like('alias_folder:name', 'folder');
-        $finder->where('alias_discount_folder_person:created_at >=', Mysql_datetime::create_from_format('Y-m-d|', '2019-01-01'));
-        $author = $finder->get(1);
+        $finder->where('alias_author:id', 1)
+               ->where('alias_discount:start_date >=', Mysql_date::create_from_format('Y-m-d', '2019-01-01'))
+               ->like('alias_folder:name', 'folder')
+               ->where('alias_discount_folder_person:created_at >=', Mysql_datetime::create_from_format('Y-m-d|', '2019-01-01'));
+        $author = $finder->first();
         var_dump_model($author);
     }
 
     public function example_28() {
         $article = Article::find(1);
 
-        $finder = new Finder('Author', $article->databubble);
-        $author = $finder->get(1);
+        $finder = new Finder('Author AS[alias_author]');
+        $finder->where('alias_author:id', 1);
+        $author = $finder->first($article->databubble);
 
         echo '<pre>';
         var_dump($author->databubble);
@@ -387,11 +399,13 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
-        $article = $finder->get(1);
+        $finder = new Finder('Article AS[alias_article]');
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
-        $finder = new Finder('Author', $main_databubble);
-        $author = $finder->get(1);
+        $finder = new Finder('Author AS[alias_author]');
+        $finder->where('alias_author:id', 1);
+        $author = $finder->first($main_databubble);
 
         echo '<pre>';
         var_dump($main_databubble);
@@ -405,12 +419,14 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('comments');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
-        $finder = new Finder('Person', $main_databubble);
-        $person = $finder->get(1);
+        $finder = new Finder('Person AS[alias_person]');
+        $finder->where('alias_person:id', 1);
+        $person = $finder->first($main_databubble);
 
         $main_databubble->insert_model(
             'Comment',
@@ -432,13 +448,14 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Author', $main_databubble);
-        $author = $finder->get(1);
+        $finder = new Finder('Author AS[alias_author]');
+        $finder->where('alias_author:id', 1);
+        $author = $finder->first($main_databubble);
 
-        $finder = new Finder('Folder AS[alias_folder]', $main_databubble, Finder::DIMENSION_ONE);
+        $finder = new Finder('Folder AS[alias_folder]');
         $finder->with('articles');
         $finder->where('alias_folder:name', 'folder 1-2');
-        $folder = $finder->get();
+        $folder = $finder->first($main_databubble);
 
         $status_draft = Status::find_by_name('DRAFT');
 
@@ -483,10 +500,10 @@ class Blog_controller extends CI_Controller {
 
         echo '<hr />';
 
-        $finder = new Finder('Folder AS[alias_folder]', $main_databubble, Finder::DIMENSION_ONE);
+        $finder = new Finder('Folder AS[alias_folder]');
         $finder->with('articles');
         $finder->where('alias_folder:name', 'folder 1-1-1');
-        $new_folder = $finder->get();
+        $new_folder = $finder->first($main_databubble);
 
         $article->set_assoc('folder', $new_folder);
 
@@ -525,16 +542,18 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('comments');
-        $article = $finder->get(2);
+        $finder->where('alias_article:id', 2);
+        $article = $finder->first($main_databubble);
 
         var_dump_model($article);
 
         echo '<hr />';
 
-        $finder = new Finder('Person', $main_databubble);
-        $person = $finder->get(1);
+        $finder = new Finder('Person AS[alias_person]');
+        $finder->where('alias_person:id', 1);
+        $person = $finder->first($main_databubble);
 
         $comment = $main_databubble->insert_model(
             'Comment',
@@ -561,16 +580,18 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('tags');
-        $article = $finder->get(2);
+        $finder->where('alias_article:id', 2);
+        $article = $finder->first($main_databubble);
 
         var_dump_model($article);
 
         echo '<hr />';
 
-        $finder = new Finder('Tag', $main_databubble);
-        $tag_1 = $finder->get(1);
+        $finder = new Finder('Tag AS[alias_tag]');
+        $finder->where('alias_tag:id', 1);
+        $tag_1 = $finder->first($main_databubble);
 
         $article->add_assoc(
             'tags',
@@ -584,8 +605,9 @@ class Blog_controller extends CI_Controller {
 
         echo '<hr />';
 
-        $finder = new Finder('Tag', $main_databubble);
-        $tag_2 = $finder->get(2);
+        $finder = new Finder('Tag AS[alias_tag]');
+        $finder->where('alias_tag:id', 2);
+        $tag_2 = $finder->first($main_databubble);
 
         $article->add_assoc(
             'tags',
@@ -625,8 +647,9 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
-        $article = $finder->get(1);
+        $finder = new Finder('Article AS[alias_article]');
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
         $new_title = $main_databubble->insert_model(
             'Title',
@@ -662,9 +685,10 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('title');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
         var_dump_model($article);
 
@@ -680,9 +704,10 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('paragraphs');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
         $qm = new Query_manager();
         $qm->select_max('position', 'max_position')
@@ -715,9 +740,10 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->with('tags');
-        $article = $finder->get(1);
+        $finder->where('alias_article:id', 1);
+        $article = $finder->first($main_databubble);
 
         $tag = $main_databubble->insert_model(
             'Tag',
@@ -748,10 +774,10 @@ class Blog_controller extends CI_Controller {
 
         $main_databubble = $CI->databubbles_warehouse->create_databubble('main');
 
-        $finder = new Finder('Article AS[alias_article]', $main_databubble);
+        $finder = new Finder('Article AS[alias_article]');
         $finder->where_in('alias_article:status:name', ['DRAFT', 'ARCHIVED'])
                ->order_by('alias_article:status:name', 'ASC');
-        $articles = $finder->get();
+        $articles = $finder->get($main_databubble);
 
         var_dump_models($articles);
     }
