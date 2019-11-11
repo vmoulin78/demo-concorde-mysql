@@ -39,7 +39,7 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_2() {
-        $articles = Article::find();
+        $articles = Article::all();
         print_models($articles);
     }
 
@@ -61,7 +61,7 @@ class Blog_controller extends CI_Controller {
         //     - It is not supposed to change (except when there is an upgrade of the website)
         // An Enum_model is particularly suitable for data like a status or a type.
 
-        $statuses = Status::find();
+        $statuses = Status::all();
         var_dump_models($statuses);
         echo '<hr />';
         $statuses = Status::find_by_name(['ARCHIVED', 'ONLINE']);
@@ -195,7 +195,7 @@ class Blog_controller extends CI_Controller {
         echo '<hr />';
 
         Person::delete($author_id);
-        var_dump_models(Person::find());
+        var_dump_models(Person::all());
     }
 
     public function example_15() {
@@ -228,7 +228,7 @@ class Blog_controller extends CI_Controller {
         var_dump_model($article);
 
         Tag::delete($tag_id);
-        var_dump_models(Tag::find());
+        var_dump_models(Tag::all());
     }
 
     public function example_16() {
@@ -265,7 +265,7 @@ class Blog_controller extends CI_Controller {
            ->where('created_at', Mysql_datetime::create_from_format('Y-m-d|', '2019-04-03'))
            ->delete();
 
-        var_dump_models(Comment::find());
+        var_dump_models(Comment::all());
     }
 
     public function example_19() {
@@ -275,7 +275,7 @@ class Blog_controller extends CI_Controller {
            ->set('content', 'The new content of the comment')
            ->update();
 
-        var_dump_models(Comment::find());
+        var_dump_models(Comment::all());
     }
 
     public function example_20() {
