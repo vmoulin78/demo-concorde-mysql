@@ -1,7 +1,7 @@
 <?php
 namespace Demo_concorde\business\associations;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('APP_ENTRY_PASS') OR exit('No direct script access allowed');
 
 use Concorde\artefact\Association;
 use Concorde\artefact\Table_association_trait;

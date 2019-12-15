@@ -1,7 +1,7 @@
 <?php
 namespace Demo_concorde\business\models;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('APP_ENTRY_PASS') OR exit('No direct script access allowed');
 
 use Concorde\utils\php\Undefined;
 use Concorde\artefact\Enum_model;
