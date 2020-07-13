@@ -324,12 +324,12 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_24() {
-        $folder_table_depth_of_folder_1 = Folder::get_table_depth('parent_folder', 1);
-        // equivalent to: $folder_table_depth_of_folder_1 = $this->db->get_table_depth('folder', 'parent_id', 1);
+        $folder_table_depth_of_folder_1 = Folder::get_table_depth('subfolders', 1);
+        // equivalent to: $folder_table_depth_of_folder_1 = $this->db->get_table_depth('folder', 'parent_id', 'down', 1);
 
         $finder = new Finder('Folder AS[alias_folder]');
         $finder->with(array(
-            'subfolders|' . ($folder_table_depth_of_folder_1 - 1) => array(
+            'subfolders|' . $folder_table_depth_of_folder_1 => array(
                 'articles' => array(
                     'title',
                     'paragraphs',
@@ -345,9 +345,9 @@ class Blog_controller extends CI_Controller {
         // The difference between this example and the previous one is that in this example, we retrieve the articles of ALL the folders
         // whereas in the previous example, we retrieve the articles of all the folders EXCEPT those of the top level.
 
-        $folder_table_depth_of_folder_1 = Folder::get_table_depth('parent_folder', 1);
+        $folder_table_depth_of_folder_1 = Folder::get_table_depth('subfolders', 1);
 
-        $finder = new Finder('Folder AS[alias_folder] REC[subfolders|' . ($folder_table_depth_of_folder_1 - 1) . ']');
+        $finder = new Finder('Folder AS[alias_folder] REC[subfolders|' . $folder_table_depth_of_folder_1 . ']');
         $finder->with(array(
             'articles' => array(
                 'title',
@@ -360,10 +360,10 @@ class Blog_controller extends CI_Controller {
     }
 
     public function example_26() {
-        $folder_table_depth = Folder::get_table_depth('parent_folder');
+        $folder_table_depth = Folder::get_table_depth('subfolders');
         // equivalent to: $folder_table_depth = $this->db->get_table_depth('folder', 'parent_id');
 
-        $finder = new Finder('Folder AS[alias_folder] REC[subfolders|' . ($folder_table_depth - 1) . ']');
+        $finder = new Finder('Folder AS[alias_folder] REC[subfolders|' . $folder_table_depth . ']');
         $finder->where('alias_folder:parent_id', null);
         $folders = $finder->get();
         var_dump_models($folders);
